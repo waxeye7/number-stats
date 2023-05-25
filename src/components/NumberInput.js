@@ -1,13 +1,19 @@
 import React, { useState } from "react";
+import "../styles/numberInputStyles.css";
 
 const NumberInput = ({ addNumberToList }) => {
   const [number, setNumber] = useState("");
 
   const handleInputChange = (event) => {
-    setNumber(event.target.value);
+    const inputNumber = event.target.value;
+
+    const sanitizedNumber = inputNumber.replace(/[^0-9]/g, "");
+
+    setNumber(sanitizedNumber);
   };
 
   const handleButtonClick = async () => {
+    console.log(number);
     if (number.trim() !== "") {
       const id = generateUniqueId(); // Generate a unique ID
       const newNumber = { _id: id, number: number };
@@ -44,9 +50,19 @@ const NumberInput = ({ addNumberToList }) => {
   };
 
   return (
-    <div>
-      <input type="text" value={number} onChange={handleInputChange} />
-      <button onClick={handleButtonClick}>Add Number</button>
+    <div className="input-container">
+      <h1 style={{ color: "#" }}>DataDude</h1>
+      <img className="datadude" src="/datadude.png" alt="DataDude" />
+      <input
+        className="input"
+        type="number"
+        value={number}
+        onChange={handleInputChange}
+        placeholder="Enter your number"
+      />
+      <div className="input-button" onClick={handleButtonClick}>
+        Go
+      </div>
     </div>
   );
 };

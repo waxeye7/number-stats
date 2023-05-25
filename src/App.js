@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NumbersList from "./components/NumbersList";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
   const [numbers, setNumbers] = useState([]);
@@ -9,8 +10,10 @@ const App = () => {
   };
 
   return (
-    <div>
-      <NumbersList numbers={numbers} addNumberToList={addNumberToList} />
+    <div className="App">
+      <ErrorBoundary>
+        <NumbersList numbers={numbers} addNumberToList={addNumberToList} />
+      </ErrorBoundary>
     </div>
   );
 };

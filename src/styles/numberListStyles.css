@@ -1,0 +1,49 @@
+.container {
+  min-height: 100vh;
+  background-color: #333333;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background-color: #444444;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.card-section {
+  margin-bottom: 16px;
+}
+
+.card-section-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.card-section-content {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.select-input {
+  padding: 8px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #333333;
+  font-size: 16px;
+  width: 200px;
+}
+.date-selector {
+  display: flex;
+  flex-direction: column;
+}
+.stats-wrapper {
+}
