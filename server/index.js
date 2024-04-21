@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:3000", // Replace with your frontend origin
+    origin: ["http://localhost:3000", "http://localhost:8100"], // Replace with your frontend origin
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
   })

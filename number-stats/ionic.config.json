@@ -1,0 +1,7 @@
+{
+  "name": "number-stats",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

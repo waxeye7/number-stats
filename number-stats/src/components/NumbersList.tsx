@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
 import NumberInput from "./NumberInput";
-import "../styles/numberListStyles.css";
+import "../theme/numberListStyles.css";
 
-const NumbersList = () => {
-  const [numbers, setNumbers] = useState([]);
-  const [selectedPeriod, setSelectedPeriod] = useState("all");
-  const [isNumberEntered, setIsNumberEntered] = useState(false);
-  const [average, setAverage] = useState(0);
-  const [recentAdditions, setRecentAdditions] = useState([]);
-  const [modeNumber, setModeNumber] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+interface NumberData {
+  _id: string;
+  number: number;
+  date: string;
+}
+
+interface NumbersListProps {
+  addNumberToList: (number: NumberData) => void;
+}
+
+const NumbersList: React.FC<NumbersListProps> = ({ addNumberToList }) => {
+  const [numbers, setNumbers] = useState<NumberData[]>([]);
+  const [selectedPeriod, setSelectedPeriod] = useState<string>("all");
+  const [isNumberEntered, setIsNumberEntered] = useState<boolean>(false);
+  const [average, setAverage] = useState<number>(0);
+  const [recentAdditions, setRecentAdditions] = useState<NumberData[]>([]);
+  const [modeNumber, setModeNumber] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const calculateStats = () => {
     // Filter numbers based on selected period
@@ -22,16 +32,18 @@ const NumbersList = () => {
     setAverage(average);
 
     // Get recent additions (assuming numbers have a `date` property)
-    const sortedNumbers = filteredNumbers.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    );
+    const sortedNumbers = filteredNumbers.sort((a, b) => {
+      const dateA = a.date ? new Date(a.date) : new Date(0); // Use default value if a.date is null or undefined
+      const dateB = b.date ? new Date(b.date) : new Date(0); // Use default value if b.date is null or undefined
+      return dateB.getTime() - dateA.getTime();
+    });
     const recentAdditions = sortedNumbers.slice(0, 5);
     setRecentAdditions(recentAdditions);
 
     // Calculate mode number (most frequent number)
-    const numberCounts = {};
+    const numberCounts: { [key: number]: number } = {};
     let maxCount = 0;
-    let modeNumber = null;
+    let modeNumber: number | null = null;
 
     filteredNumbers.forEach((num) => {
       numberCounts[num.number] = numberCounts[num.number]
@@ -59,26 +71,26 @@ const NumbersList = () => {
   const fetchNumbers = async () => {
     try {
       const response = await fetch(`http://localhost:5000/numbers`);
-      const data = await response.json();
+      const data: NumberData[] = await response.json();
       setNumbers(data);
     } catch (error) {
       console.error("Error fetching numbers:", error);
     }
   };
 
-  const addNumberToList = (number) => {
+  const addNumberToListHandler = (number: NumberData) => {
     setIsNumberEntered(true);
-    setNumbers([...numbers, number]);
+    addNumberToList(number);
   };
 
-  const handlePeriodChange = (event) => {
+  const handlePeriodChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedPeriod(event.target.value);
   };
 
-  const filterNumbersByPeriod = (number) => {
+  const filterNumbersByPeriod = (number: NumberData) => {
     const currentDate = new Date();
     const numberDate = new Date(number.date);
-    const timeDiff = currentDate - numberDate;
+    const timeDiff = currentDate.getTime() - numberDate.getTime();
     const oneHour = 60 * 60 * 1000;
     const oneDay = 24 * oneHour;
     const oneWeek = 7 * oneDay;
@@ -103,7 +115,7 @@ const NumbersList = () => {
   return (
     <div className="container">
       {!isNumberEntered ? (
-        <NumberInput addNumberToList={addNumberToList} />
+        <NumberInput addNumberToList={addNumberToListHandler} />
       ) : (
         <></>
       )}

@@ -1,22 +1,34 @@
 import React, { useState } from "react";
-import "../styles/numberInputStyles.css";
+import "../theme/numberInputStyles.css";
 
-const NumberInput = ({ addNumberToList }) => {
-  const [number, setNumber] = useState("");
+interface NumberData {
+  _id: string;
+  number: number;
+  date: string; // Ensure the 'date' property is of type 'string'
+}
 
-  const handleInputChange = (event) => {
+interface NumberInputProps {
+  addNumberToList: (number: NumberData) => void;
+}
+
+const NumberInput: React.FC<NumberInputProps> = ({ addNumberToList }) => {
+  const [number, setNumber] = useState<number>(0);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputNumber = event.target.value;
-
     const sanitizedNumber = inputNumber.replace(/[^0-9]/g, "");
-
-    setNumber(sanitizedNumber);
+    setNumber(Number(sanitizedNumber));
   };
 
   const handleButtonClick = async () => {
     console.log(number);
-    if (number.trim() !== "") {
-      const id = generateUniqueId(); // Generate a unique ID
-      const newNumber = { _id: id, number: number };
+    if (number !== 0) {
+      const id = generateUniqueId();
+      const newNumber: NumberData = {
+        _id: id,
+        number: number,
+        date: "", // Provide a suitable value for the 'date' property
+      };
 
       try {
         const response = await fetch(`http://localhost:5000/numbers`, {
@@ -32,17 +44,14 @@ const NumberInput = ({ addNumberToList }) => {
         }
 
         addNumberToList(newNumber);
-        setNumber("");
+        setNumber(0);
       } catch (error) {
         console.error("Error creating number:", error);
       }
     }
   };
 
-  const generateUniqueId = () => {
-    // Generate a unique ID using a suitable approach,
-    // such as a random string or an incremental counter.
-    // Here's a simple example using a timestamp.
+  const generateUniqueId = (): string => {
     return Date.now().toString();
   };
 

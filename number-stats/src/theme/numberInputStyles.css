@@ -1,0 +1,53 @@
+.input-container {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.input-container * {
+  margin: 14px 0;
+}
+.input-container h1 {
+  margin: 20px 0 40px 0;
+  text-decoration: overline underline;
+}
+.datadude {
+  height: 266px;
+  width: 266px;
+}
+/* Styling for number input */
+.input {
+  width: 250px; /* Adjust the width as needed */
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  background-color: #f2f2f2; /* Light input background color */
+  color: #333333; /* Dark input text color */
+  transition: background-color 0.3s ease;
+}
+
+.input::placeholder {
+  color: #999999; /* Adjust the placeholder color */
+}
+.input-button {
+  padding: 40px;
+  background-color: #00365c; /* Button background color */
+  color: #ffffff; /* Button text color */
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  transition: color 0.3s ease;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+.input-button:hover {
+  font-weight: 900;
+  background-color: #f2f2f2; /* Button background color on hover */
+  color: rgb(0, 0, 0);
+}
